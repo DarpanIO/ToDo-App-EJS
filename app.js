@@ -4,18 +4,19 @@ const app=express();
 
 var items=[];
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(express.static('public'));
 app.set('view engine','ejs');
 
 app.get('/',function(req,res){
 var today =new Date();
-var currentDay=today.getDay();
-var day="";
-if(currentDay==6||currentDay==0){
-    day="Weekend";
-}
-else{
-    day="Weekday";
-}
+var options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+};
+
+var day=today.toLocaleDateString("en-IN", options);
 // res.send(day);
 res.render('list',{kindOfDay:day,newItem:items});
 });
